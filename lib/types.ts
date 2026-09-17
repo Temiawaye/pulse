@@ -10,6 +10,7 @@ export interface Project {
   environment: Environment;
   created_at: string;
   last_event_at?: string | null;
+  metrics?: Pick<Metrics, "totalRequests" | "averageLatency" | "errorRate">;
 }
 
 export interface MonitoringEvent {
