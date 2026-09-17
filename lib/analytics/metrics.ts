@@ -9,3 +9,8 @@ export function mergeUniqueEvents(current: MonitoringEvent[], incoming: Monitori
   const map = new Map(current.map((event) => [event.id, event])); incoming.forEach((event) => map.set(event.id, event));
   return [...map.values()].sort((a, b) => Date.parse(b.occurred_at) - Date.parse(a.occurred_at)).slice(0, limit);
 }
+
+export function isInTimeWindow(timestamp: string, now: Date, minutes: number) {
+  const value = Date.parse(timestamp);
+  return Number.isFinite(value) && value >= now.getTime() - minutes * 60_000 && value <= now.getTime();
+}
