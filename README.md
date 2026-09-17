@@ -5,7 +5,7 @@ Pulse is a real-time application monitoring dashboard built with Next.js 16, Typ
 ## Local setup
 
 1. Create a Supabase project and run the files in `supabase/migrations` in filename order using the SQL editor or Supabase CLI.
-2. Copy `.env.example` to `.env.local` and provide the Supabase URL, anon key, service-role key, and local site URL. Never expose the service-role key to browser code.
+2. Copy `.env.example` to `.env.local` and provide either the current Supabase URL/publishable/secret keys or the legacy URL/anon/service-role keys, plus the site URL. Pulse exposes only the URL and publishable key to the client; never prefix a secret key with `NEXT_PUBLIC_`.
 3. In Supabase Auth URL configuration, add `http://localhost:3000/auth/callback` as a redirect URL.
 4. Run `npm install` and `npm run dev`, then open `http://localhost:3000`.
 
