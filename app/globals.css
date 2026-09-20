@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   color-scheme: light;
   --background: #f7f8fa;
@@ -40,6 +42,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), sans-serif;
   letter-spacing: 0;
+  transition: background-color 150ms ease, color 150ms ease;
 }
 
 * { border-color: var(--border); }
