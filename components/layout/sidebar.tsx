@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Activity, BarChart3, FolderKanban, LayoutDashboard, ScrollText, Settings, X } from "lucide-react";
+import { Activity, BarChart3, BookOpen, FolderKanban, LayoutDashboard, ScrollText, Settings, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const items = [
@@ -25,6 +25,11 @@ const items = [
     href: "/projects", 
     label: "Projects", 
     icon: FolderKanban 
+  },
+  {
+    href: "/docs/integration",
+    label: "Integration guide",
+    icon: BookOpen
   },
 ];
 
