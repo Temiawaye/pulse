@@ -3,6 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import type { Project } from "@/lib/types";
 import type { LogFilters } from "@/lib/logs";
+import { Select as SelectControl } from "@/components/ui/select";
 
 export function LogFilterForm({ projects, filters }: { projects: Project[]; filters: LogFilters }) {
   const router = useRouter(); const pathname = usePathname();
@@ -44,17 +45,12 @@ export function LogFilterForm({ projects, filters }: { projects: Project[]; filt
       options={["2xx","3xx","4xx","5xx"]} 
     />
     
-    <label className="sr-only">
-      Project
-      <select 
-        name="project" 
-        defaultValue={filters.project ?? ""} 
-        className="not-sr-only h-9 rounded-md border bg-[var(--surface)] px-3 text-sm">
-          
-        <option value="">All projects</option>
-        {projects.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
-      </select>
-    </label>
+    <SelectControl
+      name="project"
+      ariaLabel="Project"
+      defaultValue={filters.project ?? ""}
+      options={[{ value: "", label: "All projects" }, ...projects.map((project) => ({ value: project.id, label: project.name }))]}
+    />
     
     <label className="text-xs text-[var(--muted)]">
       From
@@ -80,14 +76,11 @@ export function LogFilterForm({ projects, filters }: { projects: Project[]; filt
 }
 function Select({ name, label, value, options }: { name: string; label: string; value?: string; options: string[] }) {
   return (
-   <label className="sr-only">{label}
-   <select 
+   <SelectControl
       name={name} 
       defaultValue={value ?? ""} 
-      className="not-sr-only h-9 rounded-md border bg-[var(--surface)] px-3 text-sm">
-        <option value="">All {label.toLowerCase()}s</option>
-        {options.map((option) => <option key={option}>{option}</option>)}
-   </select>
-   </label>
+      ariaLabel={label}
+      options={[{ value: "", label: `All ${label.toLowerCase()}s` }, ...options.map((option) => ({ value: option, label: option }))]}
+   />
   );
 }

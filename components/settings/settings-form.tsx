@@ -3,6 +3,7 @@ import { useActionState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { saveSettings } from "@/app/(dashboard)/settings/actions";
 import { Button } from "@/components/ui/button";
+import { Select } from "@/components/ui/select";
 
 interface Profile { 
     full_name: string; 
@@ -63,15 +64,13 @@ export function SettingsForm({ profile, email }: { profile: Profile; email: stri
         >
             <label className="block text-sm font-medium">
                 Theme
-                <select 
+                <Select
                     name="theme" 
                     defaultValue={profile.theme} 
-                    className="mt-1.5 h-10 w-full rounded-md border bg-[var(--background)] px-3"
-                >
-                    <option value="system">System</option>
-                    <option value="dark">Dark</option>
-                    <option value="light">Light</option>
-                </select>
+                    ariaLabel="Theme"
+                    className="mt-1.5"
+                    options={[{ value: "system", label: "System" }, { value: "dark", label: "Dark" }, { value: "light", label: "Light" }]}
+                />
             </label>
         </Section>
         
@@ -83,16 +82,13 @@ export function SettingsForm({ profile, email }: { profile: Profile; email: stri
                 className="block text-sm font-medium"
             >
                 Default analytics period
-                <select 
+                <Select
                     name="default_range" 
                     defaultValue={profile.default_range} 
-                    className="mt-1.5 h-10 w-full rounded-md border bg-[var(--background)] px-3"
-                >
-                    <option value="1h">1 hour</option>
-                    <option value="24h">24 hours</option>
-                    <option value="7d">7 days</option>
-                    <option value="30d">30 days</option>
-                </select>
+                    ariaLabel="Default analytics period"
+                    className="mt-1.5"
+                    options={[{ value: "1h", label: "1 hour" }, { value: "24h", label: "24 hours" }, { value: "7d", label: "7 days" }, { value: "30d", label: "30 days" }]}
+                />
             </label>
             
             <Field 

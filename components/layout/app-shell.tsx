@@ -19,7 +19,7 @@ export function AppShell({ children, userEmail }: { children: React.ReactNode; u
       />
       
       <div className="lg:pl-60">
-        <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b bg-[color-mix(in_srgb,var(--background)_92%,transparent)] px-4 backdrop-blur md:px-7">
+        <header className="sticky top-0 z-20 flex h-16 items-center justify-between  bg-[color-mix(in_srgb,var(--background)_92%,transparent)] px-4 backdrop-blur md:px-7">
         <button 
           className="rounded-md p-2 lg:hidden" 
           onClick={() => setOpen(true)} 

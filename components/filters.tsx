@@ -4,6 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { Project } from "@/lib/types";
 import { TIME_RANGES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { Select } from "@/components/ui/select";
 
 function useUrlValue() {
   const router = useRouter(); 
@@ -25,15 +26,13 @@ export function ProjectSelector({ projects, value }: { projects: Project[]; valu
   const setValue = useUrlValue();
 
   return (
-    <label className="sr-only">Project
-      <select 
-        value={value ?? ""} 
-        onChange={(e) => setValue("project", e.target.value)} 
-        className="not-sr-only h-9 min-w-40 rounded-md border bg-[var(--surface)] px-3 text-sm">
-          <option value="">All projects</option>
-          {projects.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
-      </select>
-    </label>
+    <Select
+      ariaLabel="Project"
+      value={value ?? ""}
+      onValueChange={(next) => setValue("project", next)}
+      className="min-w-40"
+      options={[{ value: "", label: "All projects" }, ...projects.map((project) => ({ value: project.id, label: project.name }))]}
+    />
   );
 }
 

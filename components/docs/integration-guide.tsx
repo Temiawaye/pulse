@@ -14,6 +14,7 @@ import {
   Code2,
   Database,
   ExternalLink,
+  FileCode2,
   Gauge,
   Info,
   Lightbulb,
@@ -22,6 +23,7 @@ import {
 } from "lucide-react";
 import type { Project } from "@/lib/types";
 import { cn, formatDate } from "@/lib/utils";
+import { Select } from "@/components/ui/select";
 
 const nav = [
   ["getting-started", "Getting started"],
@@ -70,7 +72,7 @@ export function IntegrationGuide({
   -H "Content-Type: application/json" \\
   -d '{"projectId":"${projectId}","method":"GET","path":"/pricing","statusCode":200,"responseTime":42,"environment":"${environment}"}'`;
 
-  const nextExample = `// app/api/example/route.ts — runs only on your server
+  const nextTypeScript = `// Runs only on your server
 export async function GET() {
   const started = performance.now()
   const response = Response.json({ ok: true })
@@ -94,7 +96,28 @@ export async function GET() {
   return response
 }`;
 
-  const reactExample = `// server/monitor.js — call from your React app's backend
+  const nextJavaScript = nextTypeScript;
+
+  const reactTypeScript = `// Call from your React app's backend
+type RequestEvent = {
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
+  path: string
+  statusCode: number
+  responseTime: number
+}
+
+export async function reportRequest(event: RequestEvent) {
+  return fetch("${endpoint}", {
+    method: "POST",
+    headers: {
+      Authorization: \`Bearer \${process.env.PULSE_API_KEY}\`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ projectId: "${projectId}", ...event }),
+  })
+}`;
+
+  const reactJavaScript = `// Call from your React app's backend
 export async function reportRequest(event) {
   return fetch("${endpoint}", {
     method: "POST",
@@ -153,9 +176,13 @@ export async function reportRequest(event) {
             {projects.length ? (
               <div className="mt-6 rounded-lg border bg-[var(--surface)] p-5">
                 <label className="block text-sm font-medium" htmlFor="project">Project used in these examples</label>
-                <select id="project" value={selected?.id} onChange={(event) => router.push(`/docs/integration?project=${event.target.value}`)} className="mt-2 h-10 w-full rounded-md border bg-[var(--background)] px-3 text-sm">
-                  {projects.map((project) => <option key={project.id} value={project.id}>{project.name} · {project.environment}</option>)}
-                </select>
+                <Select
+                  ariaLabel="Project used in these examples"
+                  value={selected?.id}
+                  onValueChange={(project) => router.push(`/docs/integration?project=${project}`)}
+                  className="mt-2"
+                  options={projects.map((project) => ({ value: project.id, label: `${project.name} · ${project.environment}` }))}
+                />
                 <dl className="mt-5 grid gap-4 border-t pt-5 sm:grid-cols-3">
                   <Detail label="Project name" value={selected!.name} />
                   <Detail label="Project URL" value={selected!.url} />
@@ -188,11 +215,17 @@ export async function reportRequest(event) {
               </Guide>
               <Guide title="Next.js App Router">
                 Add <code>PULSE_API_KEY</code> to your server environment (without <code>NEXT_PUBLIC_</code>) and report after your Route Handler produces a response.
-                <CodeBlock label="TypeScript" code={nextExample} />
+                <CodeBlock variants={[
+                  { language: "TypeScript", filename: "app/api/example/route.ts", code: nextTypeScript },
+                  { language: "JavaScript", filename: "app/api/example/route.js", code: nextJavaScript },
+                ]} />
               </Guide>
               <Guide title="React">
                 React runs in the visitor&apos;s browser, so do not initialize Pulse in a component or <code>useEffect</code>. Put a small reporter in the Node/Express/serverless backend that serves your React application.
-                <CodeBlock label="JavaScript" code={reactExample} />
+                <CodeBlock variants={[
+                  { language: "TypeScript", filename: "server/monitor.ts", code: reactTypeScript },
+                  { language: "JavaScript", filename: "server/monitor.js", code: reactJavaScript },
+                ]} />
               </Guide>
             </div>
           </Section>
@@ -282,10 +315,65 @@ function Callout({ kind, title, children }: { kind: "note" | "warning" | "tip"; 
   return <div className={cn("mt-5 flex gap-3 rounded-lg border-l-4 bg-[var(--surface)] p-4", kind === "warning" ? "border-l-[var(--warning)]" : "border-l-[var(--accent)]")}><Icon className="mt-0.5 h-5 w-5 shrink-0 text-[var(--accent-strong)]" /><div><p className="font-medium text-[var(--foreground)]">{title}</p><div className="mt-1 text-sm leading-6 text-[var(--muted)]">{children}</div></div></div>;
 }
 
-function CodeBlock({ label, code }: { label: string; code: string }) {
+type CodeVariant = { language: "TypeScript" | "JavaScript"; filename: string; code: string };
+
+function CodeBlock({ label, code, variants }: { label?: string; code?: string; variants?: CodeVariant[] }) {
   const [copied, setCopied] = useState(false);
-  async function copy() { await navigator.clipboard.writeText(code); setCopied(true); window.setTimeout(() => setCopied(false), 1500); }
-  return <div className="mt-5 overflow-hidden rounded-lg border bg-[#111416] text-[#e7ecef]"><div className="flex items-center justify-between border-b border-white/10 px-4 py-2 text-xs text-[#9da7ad]"><span>{label}</span><button onClick={copy} className="inline-flex items-center gap-1.5 rounded px-2 py-1 hover:bg-white/10" aria-label={`Copy ${label} code`}>{copied ? <Check className="h-3.5 w-3.5 text-[#62e6b1]" /> : <Clipboard className="h-3.5 w-3.5" />}{copied ? "Copied" : "Copy code"}</button></div><pre className="overflow-x-auto p-4 text-[13px] leading-6"><code>{code}</code></pre></div>;
+  const [selected, setSelected] = useState(0);
+  const current = variants?.[selected];
+  const displayedCode = current?.code ?? code ?? "";
+  async function copy() { await navigator.clipboard.writeText(displayedCode); setCopied(true); window.setTimeout(() => setCopied(false), 1500); }
+  return (
+    <div className="mt-5 overflow-hidden rounded-lg border border-[#2a2e31] bg-[#090a0b] text-[#e7ecef] shadow-sm">
+      <div className="flex min-h-11 items-center justify-between gap-3 border-b border-white/10 px-4 text-xs text-[#aab2b7]">
+        <span className="flex min-w-0 items-center gap-2 font-mono">
+          <FileCode2 className="h-4 w-4 shrink-0" />
+          <span className="truncate">{current?.filename ?? label}</span>
+        </span>
+        <div className="flex shrink-0 items-center gap-1">
+          {variants ? (
+            <Select
+              ariaLabel="Code language"
+              value={String(selected)}
+              onValueChange={(next) => { setSelected(Number(next)); setCopied(false); }}
+              variant="code"
+              options={variants.map((variant, index) => ({ value: String(index), label: variant.language }))}
+            />
+          ) : null}
+          <button onClick={copy} className="inline-flex items-center gap-1.5 rounded p-2 hover:bg-white/10" aria-label={`Copy ${current?.language ?? label} code`} title={copied ? "Copied" : "Copy code"}>
+            {copied ? <Check className="h-4 w-4 text-[#62e6b1]" /> : <Clipboard className="h-4 w-4" />}
+            <span className="sr-only">{copied ? "Copied" : "Copy code"}</span>
+          </button>
+        </div>
+      </div>
+      <pre className="overflow-x-auto p-5 text-[13px] leading-6"><code>{highlightCode(displayedCode)}</code></pre>
+    </div>
+  );
+}
+
+function highlightCode(code: string) {
+  const tokenPattern = /(\/\/.*$|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`|\b[A-Za-z_$][\w$]*\b|\b\d+\b|=>|===|!==|==|!=|\.\.\.|[{}()[\]:,.])/gm;
+  const tokens = code.split(tokenPattern);
+  const keywords = new Set(["export", "async", "function", "return", "const", "let", "var", "type", "interface", "string", "number", "boolean", "await", "new", "true", "false", "null", "undefined", "import", "from", "default"]);
+  const globals = new Set(["Response", "JSON", "Math", "Date", "Promise", "process", "performance", "fetch", "console"]);
+
+  return tokens.map((token, index) => {
+    if (token.startsWith("//")) return <span className="text-[#7f898f]" key={index}>{token}</span>;
+    if (/^["'`]/.test(token)) return <span className="text-[#65d88d]" key={index}>{token}</span>;
+    if (keywords.has(token)) return <span className="text-[#f071a5]" key={index}>{token}</span>;
+    if (globals.has(token)) return <span className="text-[#ffcb6b]" key={index}>{token}</span>;
+    if (/^\d+$/.test(token)) return <span className="text-[#c792ea]" key={index}>{token}</span>;
+    if (/^(=>|===|!==|==|!=|\.\.\.)$/.test(token)) return <span className="text-[#f071a5]" key={index}>{token}</span>;
+    if (/^[A-Za-z_$]/.test(token)) {
+      const next = tokens.slice(index + 1).find((part) => part.trim());
+      const previous = [...tokens.slice(0, index)].reverse().find((part) => part.trim());
+      if (next === ":") return <span className="text-[#c792ea]" key={index}>{token}</span>;
+      if (next === "(" || previous === ".") return <span className="text-[#82d2ff]" key={index}>{token}</span>;
+      return <span className="text-[#89b4fa]" key={index}>{token}</span>;
+    }
+    if (/^[{}()[\]:,.]$/.test(token)) return <span className="text-[#aeb8c0]" key={index}>{token}</span>;
+    return token;
+  });
 }
 
 function Steps({ items }: { items: React.ReactNode[] }) { return <ol className="mt-5 space-y-4">{items.map((item, index) => <li key={index} className="flex gap-3"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[var(--accent)] text-xs font-semibold text-white">{index + 1}</span><span className="pt-0.5">{item}</span></li>)}</ol>; }

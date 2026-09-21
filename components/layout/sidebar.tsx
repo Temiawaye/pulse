@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 const items = [
   { 
     href: "/dashboard", 
-    label: "Overview", 
+    label: "Dashboard",
     icon: LayoutDashboard 
   },
   { 
@@ -28,7 +28,7 @@ const items = [
   },
   {
     href: "/docs/integration",
-    label: "Integration guide",
+    label: "Docs",
     icon: BookOpen
   },
 ];
@@ -47,7 +47,7 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void 
         
     <aside 
       className={cn(
-        "fixed inset-y-0 left-0 z-40 flex w-60 flex-col border-r bg-[var(--surface)] p-4 transition-transform lg:translate-x-0",
+        "fixed inset-y-0 left-0 z-40 flex w-60 flex-col  bg-[var(--surface)] p-4 transition-transform lg:translate-x-0",
         open ? "translate-x-0" : "-translate-x-full"
       )}>
 

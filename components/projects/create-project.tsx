@@ -4,6 +4,7 @@ import { Check, Copy, Plus, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { createProject } from "@/app/(dashboard)/projects/actions";
 import { Button } from "@/components/ui/button";
+import { Select } from "@/components/ui/select";
 
 export function CreateProject() {
   const [open, setOpen] = useState(false); 
@@ -100,13 +101,13 @@ export function CreateProject() {
 
           <label className="block text-sm font-medium">
             Environment
-            <select 
-              name="environment" 
-              className="mt-1.5 h-10 w-full rounded-md border bg-[var(--background)] px-3">
-              <option value="production">Production</option>
-              <option value="staging">Staging</option>
-              <option value="development">Development</option>
-            </select>
+            <Select
+              name="environment"
+              ariaLabel="Environment"
+              defaultValue="production"
+              className="mt-1.5"
+              options={[{ value: "production", label: "Production" }, { value: "staging", label: "Staging" }, { value: "development", label: "Development" }]}
+            />
           </label>
           
           {state.error ? 
