@@ -202,6 +202,15 @@ export async function reportRequest(event) {
               <span key="2">Store the one-time <code>pulse_live_…</code> key as a server-only <code>PULSE_API_KEY</code> environment variable.</span>,
               <span key="3">Measure a request on your server and POST its result to Pulse using the example below.</span>,
             ]} />
+            <h3 className="mt-8 text-lg font-semibold">Configure the environment variable</h3>
+            <p className="mt-2">
+              Add the ingestion key to the environment of the website you are connecting to Pulse. This is the customer website&apos;s configuration, not the environment file for the Pulse dashboard itself.
+            </p>
+            <CodeBlock label=".env.local" code={`PULSE_API_KEY=pulse_live_your_key_here`} />
+            <Callout kind="warning" title="Keep this variable private">
+              Do not rename it to <code>NEXT_PUBLIC_PULSE_API_KEY</code> or read it from browser code. For local development, restart your development server after saving the file. In production, add <code>PULSE_API_KEY</code> through your hosting provider&apos;s environment-variable settings and redeploy if required.
+            </Callout>
+            <p className="mt-6">Once the variable is available to your server, send a test event:</p>
             <CodeBlock label="Terminal" code={curl} />
             <Callout kind="tip" title="A successful test returns HTTP 202">
               The response contains <code>{`{ "accepted": true, "eventId": "…" }`}</code>. Pulse accepts at most 120 events per key per minute.
