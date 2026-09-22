@@ -8,7 +8,7 @@ export function EmptyState({ title, description, href, action }: { title: string
             className="mb-4 h-7 w-7 text-[var(--muted)]" 
             aria-hidden 
         />
-        <h2 className="font-semibold">
+        <h2 className="font-display text-xl font-semibold tracking-tight">
           {title}
         </h2>
         <p className="mt-1 max-w-md text-sm text-[var(--muted)]">

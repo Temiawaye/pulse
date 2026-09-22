@@ -141,7 +141,7 @@ export async function reportRequest(event) {
         <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-[var(--accent-strong)]">
           <Code2 className="h-4 w-4" /> Integration guide
         </div>
-        <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Connect Your Website</h1>
+        <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">Connect Your Website</h1>
         <p className="mt-3 max-w-3xl text-base leading-7 text-[var(--muted)]">
           Send lightweight request-performance events from your website&apos;s trusted server to Pulse. Pulse validates and stores each event, then turns it into live monitoring, logs, and analytics.
         </p>
@@ -202,7 +202,7 @@ export async function reportRequest(event) {
               <span key="2">Store the one-time <code>pulse_live_…</code> key as a server-only <code>PULSE_API_KEY</code> environment variable.</span>,
               <span key="3">Measure a request on your server and POST its result to Pulse using the example below.</span>,
             ]} />
-            <h3 className="mt-8 text-lg font-semibold">Configure the environment variable</h3>
+            <h3 className="mt-8 font-display text-xl font-semibold tracking-tight">Configure the environment variable</h3>
             <p className="mt-2">
               Add the ingestion key to the environment of the website you are connecting to Pulse. This is the customer website&apos;s configuration, not the environment file for the Pulse dashboard itself.
             </p>
@@ -253,7 +253,7 @@ export async function reportRequest(event) {
             <div className="mt-7 flex flex-col items-center gap-2 rounded-xl border bg-[var(--surface)] p-5 text-sm font-medium">
               {[[ExternalLink, "Visitor"], [Server, "External website server"], [Code2, "Monitoring code"], [CircleDot, "Pulse /api/events"], [Database, "PostgreSQL"], [Gauge, "Analytics dashboard"]].map(([Icon, label], index, rows) => <div className="contents" key={String(label)}><div className="flex w-full max-w-sm items-center gap-3 rounded-md bg-[var(--surface-raised)] px-4 py-2.5"><Icon className="h-4 w-4 text-[var(--accent-strong)]" />{label as string}</div>{index < rows.length - 1 ? <ArrowDown className="h-4 w-4 text-[var(--muted)]" /> : null}</div>)}
             </div>
-            <h3 className="mt-10 text-lg font-semibold">Event payload</h3>
+            <h3 className="mt-10 font-display text-xl font-semibold tracking-tight">Event payload</h3>
             <p className="mt-2">Required fields describe the completed HTTP request. Optional fields add context; unknown fields are rejected.</p>
             <CodeBlock label="JSON" code={`{
   "projectId": "${projectId}",
@@ -286,7 +286,7 @@ export async function reportRequest(event) {
                 <RefreshCw className={cn("h-4 w-4", checking && "animate-spin")} />{checking ? "Checking…" : "Verify connection"}
               </button>
             </div>
-            <h3 className="mt-8 text-lg font-semibold">Real-time verification</h3>
+            <h3 className="mt-8 font-display text-xl font-semibold tracking-tight">Real-time verification</h3>
             <Steps items={[
               <span key="1">Trigger a few requests on your connected website.</span>,
               <span key="2">Return to Pulse and choose the same project.</span>,
@@ -312,7 +312,7 @@ export async function reportRequest(event) {
 }
 
 function Section({ id, eyebrow, title, children }: { id: string; eyebrow: string; title: string; children: React.ReactNode }) {
-  return <section id={id} className="scroll-mt-24"><p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--accent-strong)]">{eyebrow}</p><h2 className="mt-2 text-2xl font-semibold tracking-tight">{title}</h2><div className="mt-4 text-[15px] leading-7 text-[var(--muted)]">{children}</div></section>;
+  return <section id={id} className="scroll-mt-24"><p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--accent-strong)]">{eyebrow}</p><h2 className="mt-2 font-display text-2xl font-semibold tracking-tight">{title}</h2><div className="mt-4 text-[15px] leading-7 text-[var(--muted)]">{children}</div></section>;
 }
 
 function FlowItem({ icon: Icon, label }: { icon: typeof Server; label: string }) {
@@ -386,7 +386,7 @@ function highlightCode(code: string) {
 }
 
 function Steps({ items }: { items: React.ReactNode[] }) { return <ol className="mt-5 space-y-4">{items.map((item, index) => <li key={index} className="flex gap-3"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[var(--accent)] text-xs font-semibold text-white">{index + 1}</span><span className="pt-0.5">{item}</span></li>)}</ol>; }
-function Guide({ title, children }: { title: string; children: React.ReactNode }) { return <div><h3 className="text-lg font-semibold text-[var(--foreground)]">{title}</h3><div className="mt-2">{children}</div></div>; }
+function Guide({ title, children }: { title: string; children: React.ReactNode }) { return <div><h3 className="font-display text-xl font-semibold tracking-tight text-[var(--foreground)]">{title}</h3><div className="mt-2">{children}</div></div>; }
 function Detail({ label, value, mono, copy }: { label: string; value: string; mono?: boolean; copy?: boolean }) { return <div className="min-w-0"><dt className="text-xs text-[var(--muted)]">{label}</dt><dd className={cn("mt-1 truncate text-sm text-[var(--foreground)]", mono && "font-mono")}>{value}{copy ? <CopyInline value={value} /> : null}</dd></div>; }
 function CopyInline({ value }: { value: string }) { const [copied, setCopied] = useState(false); return <button className="ml-2 align-middle" aria-label="Copy project ID" onClick={async () => { await navigator.clipboard.writeText(value); setCopied(true); window.setTimeout(() => setCopied(false), 1200); }}>{copied ? <Check className="inline h-3.5 w-3.5 text-[var(--accent)]" /> : <Clipboard className="inline h-3.5 w-3.5" />}</button>; }
 function Trouble({ title, children }: { title: string; children: React.ReactNode }) { return <details className="group p-5"><summary className="cursor-pointer list-none font-medium text-[var(--foreground)] marker:hidden">{title}<span className="float-right text-[var(--muted)] group-open:rotate-45">+</span></summary><div className="mt-3 text-sm leading-6">{children}</div></details>; }

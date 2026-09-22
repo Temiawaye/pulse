@@ -44,7 +44,7 @@ export function CreateProject() {
         className="w-full max-w-lg rounded-lg border bg-[var(--surface)] p-6 shadow-2xl">
         <div className="flex items-start justify-between">
           <div>
-            <h2 id="project-dialog-title" className="text-lg font-semibold">Create project</h2>
+            <h2 id="project-dialog-title" className="font-display text-xl font-semibold tracking-tight">Create project</h2>
             <p className="text-sm text-[var(--muted)]">Connect an application to Pulse.</p></div>
             <button autoFocus onClick={() => setOpen(false)} aria-label="Close">
               <X className="h-5 w-5" />

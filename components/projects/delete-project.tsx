@@ -43,7 +43,7 @@ export function DeleteProject({ id, name }: { id: string; name: string }) {
         >
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h2 id={`delete-project-${id}`} className="text-lg font-semibold">Delete project?</h2>
+              <h2 id={`delete-project-${id}`} className="font-display text-xl font-semibold tracking-tight">Delete project?</h2>
               <p className="mt-1 text-sm text-[var(--muted)]">
                 <strong className="font-medium text-[var(--foreground)]">{name}</strong> and all of its monitoring data will be permanently deleted.
               </p>

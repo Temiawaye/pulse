@@ -28,7 +28,7 @@ export default async function ProjectsPage() {
             <Card key={project.id} className="p-5">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <h2 className="font-semibold">
+                  <h2 className="font-display text-xl font-semibold tracking-tight">
                     {project.name}
                   </h2>
                   <code className="text-xs text-[var(--muted)]">
@@ -50,19 +50,19 @@ export default async function ProjectsPage() {
               <dl className="mt-6 grid grid-cols-3 gap-3 text-sm">
                 <div>
                   <dt className="text-xs text-[var(--muted)]">Today</dt>
-                  <dd className="mt-1 font-mono">
+                  <dd className="mt-1 font-semibold tabular-nums">
                     {formatNumber(project.metrics?.totalRequests ?? 0)}
                   </dd>
                 </div>
                 <div>
                   <dt className="text-xs text-[var(--muted)]">Errors</dt>
-                  <dd className="mt-1 font-mono">
+                  <dd className="mt-1 font-semibold tabular-nums">
                     {(project.metrics?.errorRate ?? 0).toFixed(1)}%
                   </dd>
                 </div>
                 <div>
                   <dt className="text-xs text-[var(--muted)]">Latency</dt>
-                  <dd className="mt-1 font-mono">
+                  <dd className="mt-1 font-semibold tabular-nums">
                     {Math.round(project.metrics?.averageLatency ?? 0)}ms
                   </dd>
                 </div>

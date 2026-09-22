@@ -25,7 +25,7 @@ export function AuthForm({ action, mode }: { action: (state: AuthState, data: Fo
         </Link>
 
         <div className="rounded-lg border bg-[var(--surface)] p-6">
-          <h1 className="text-xl font-semibold">{content[0]}</h1>
+          <h1 className="font-display text-2xl font-semibold tracking-tight">{content[0]}</h1>
           <p className="mt-1 text-sm text-[var(--muted)]">{content[1]}</p>
           
           <form 

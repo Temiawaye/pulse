@@ -101,7 +101,7 @@ export function LiveDashboard({ metrics, chart, recent: initialRecent, uptime, p
       <Card className="mt-4 p-4 md:p-5">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           <div>
-            <h2 className="font-semibold">Request volume</h2>
+            <h2 className="font-display text-xl font-semibold tracking-tight">Request volume</h2>
             <p className="text-xs text-[var(--muted)]">Persisted events in the selected window</p>
           </div>
 
@@ -111,7 +111,7 @@ export function LiveDashboard({ metrics, chart, recent: initialRecent, uptime, p
               {connection}
             </span>
 
-            <p className="text-[11px] text-[var(--muted)]">
+            <p className="font-mono text-[11px] text-[var(--muted)]">
               Updated {updated.toLocaleTimeString()}
             </p>
           </div>
@@ -126,7 +126,7 @@ export function LiveDashboard({ metrics, chart, recent: initialRecent, uptime, p
       </Card>
       <Card className="mt-4 overflow-hidden">
         <div className="border-b px-5 py-4">
-          <h2 className="font-semibold">Recent requests</h2>
+          <h2 className="font-display text-xl font-semibold tracking-tight">Recent requests</h2>
         </div>
         
         {recent.length ? 
@@ -158,7 +158,7 @@ export function LiveDashboard({ metrics, chart, recent: initialRecent, uptime, p
                   <td className="px-3 py-3 font-mono text-xs">
                     {event.response_time}
                   </td>
-                  <td className="px-5 py-3 text-right text-xs text-[var(--muted)]">
+                  <td className="px-5 py-3 text-right font-mono text-xs text-[var(--muted)]">
                     {formatDate(event.occurred_at)}
                   </td>
                 </tr>
@@ -187,7 +187,7 @@ function Metric({ icon: Icon, label, value, small }: { icon: typeof Activity; la
       <Icon className="h-4 w-4" aria-hidden />
     </div>
       
-    <p className={small ? "mt-4 text-xl font-semibold" : "mt-4 font-mono text-3xl font-semibold"}>
+    <p className={small ? "mt-4 text-xl font-semibold" : "mt-4 text-3xl font-semibold tabular-nums"}>
       {value}
     </p>
       

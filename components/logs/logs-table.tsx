@@ -60,7 +60,7 @@ export function LogsTable({ events }: { events: MonitoringEvent[] }) {
             <td className="px-4 py-3">
               {event.project?.name ?? "Unknown"}
             </td>
-            <td className="px-4 py-3 text-xs text-[var(--muted)]">
+            <td className="px-4 py-3 font-mono text-xs text-[var(--muted)]">
               {formatDate(event.occurred_at)}
             </td>
           </tr>
@@ -75,7 +75,7 @@ export function LogsTable({ events }: { events: MonitoringEvent[] }) {
     className="m-0 ml-auto h-full max-h-none w-full max-w-lg border-l bg-[var(--surface)] p-0 text-[var(--foreground)] backdrop:bg-black/60"
   >
     <div className="flex items-center justify-between border-b p-5">
-      <h2 className="font-semibold">Request details</h2>
+      <h2 className="font-display text-xl font-semibold tracking-tight">Request details</h2>
       <button 
         onClick={() => dialog.current?.close()} 
         aria-label="Close details"

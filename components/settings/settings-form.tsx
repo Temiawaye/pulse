@@ -141,7 +141,7 @@ function Section({ title, description, children }: { title: string; description:
         <section className="grid gap-5 p-5 md:grid-cols-[220px_1fr]">
             
             <div>
-                <h2 className="font-semibold">{title}</h2>
+                <h2 className="font-display text-xl font-semibold tracking-tight">{title}</h2>
                 <p className="mt-1 text-sm text-[var(--muted)]">{description}</p>
             </div>
         

@@ -54,7 +54,7 @@ export function Sidebar({ open, onClose }: { open: boolean; onClose: () => void 
       <div className="flex h-12 items-center justify-between px-2">
         <Link 
           href="/dashboard" 
-          className="flex items-center gap-2 font-semibold">
+          className="flex items-center gap-2 font-display font-semibold tracking-tight">
           
           <span className="grid h-7 w-7 place-items-center rounded-md bg-[var(--accent)] text-white">
             <Activity className="h-4 w-4" />

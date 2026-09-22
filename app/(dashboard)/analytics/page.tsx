@@ -28,7 +28,7 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: Pr
             <p className="text-xs text-[var(--muted)]">
               {label}
             </p>
-            <p className="mt-2 font-mono text-xl font-semibold">
+            <p className="mt-2 text-3xl font-semibold tracking-tight tabular-nums">
               {value}
             </p>
           </Card>
@@ -53,7 +53,7 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: Pr
 
       <Card className="mt-4 overflow-hidden">
         <div className="border-b px-5 py-4">
-          <h2 className="font-semibold">Slowest endpoints</h2>
+          <h2 className="font-display text-xl font-semibold tracking-tight">Slowest endpoints</h2>
         </div>
 
         <div className="divide-y">
@@ -83,7 +83,7 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: Pr
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
   <Card className="p-4 md:p-5">
-    <h2 className="mb-3 font-semibold">{title}</h2>
+    <h2 className="mb-3 font-display text-xl font-semibold tracking-tight">{title}</h2>
     {children}
   </Card>
   );
